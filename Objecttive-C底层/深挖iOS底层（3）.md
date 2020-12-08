@@ -135,14 +135,17 @@ struct NSObject_IMPL NSObjct_IVARS :isa
 ![w1005](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074314238511.jpg)
 
 ### 通过LLDB操作内存位移的演算来探究（shiftcls）isa的信息
-![w758](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074315639691.jpg)
+![w758](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074315639691.jpg)  
 
 * NSObjc类却是Class类型而不是isa_t类型原因：
-![w946](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074318209004.jpg)
+![w946](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074318209004.jpg)  
+
 通过getClass底层:object_getClass会调用objc_object::getIsa() 
-![w701](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074320948787.jpg)
+![w701](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074320948787.jpg)  
+
 ISA()方法进行了强转
-![w416](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074321399184.jpg)
+![w416](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074321399184.jpg)  
+
 
 
 
