@@ -1,5 +1,5 @@
 # 深挖iOS底层（3）
-###Sizeof()
+### Sizeof()
 * 定义：打印当前数据类型的占用大小，单位为字节
 sizeof(结构体)：结构体元素的类型的总和
 sizeof(类)：打印的objc是对象指针的大小，固定8字节
@@ -10,7 +10,7 @@ NSObject内存分配探究：
 class_getInstanceSize：运行时NSObject占用大小 8字节
 malloc_size：系统分配给对象的大小  16字节。
 
-###LLDB调试技巧：
+### LLDB调试技巧：
 * LLDB调试-内存读取
 
 ```
@@ -28,12 +28,12 @@ x是（16进制显示结果），
 * LLDB调试-进制转换
 ![-w612](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074232179113.jpg)
 
-###通过对象地址，探究对象的
+### 通过对象地址，探究对象的
 ![-w794](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074238732931.jpg)
 NS都为指针类型，可通过当前指针存储的地址访问地址指向的内容。
 常量直接打印当前赋值，会出检索对应地址。
 
-###什么是对象
+### 什么是对象
 * clang编译器
 ![-w632](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074270917065.jpg)
 
@@ -52,7 +52,7 @@ struct NSObject_IMPL NSObjct_IVARS :isa
 ![-w1050](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074285489197.jpg)
 总结：所有对象创建属性都会调用objc_setProperty,统一管理，（上下层分离，通过锁进行隔离），利用了适配器原则。
 
-###联合体位域
+### 联合体位域
 * 字节：字节也叫Byte，1Byte=8bit(位)，1024Byte(字节)=1KB，1024KB=1MB，1024MB=1GB，1024GB=1TB。bit是描述电脑数据量的最小单位。
 * 结构体（struct）：中所有变量是共存关系，优点是可以共存。缺点是不管用不用都会分配结构体内元素内存。
 * 联合体（union）：各变量是互斥关系，缺点是不能共存，优点是精细灵活，也节省内存开销。如下图
@@ -67,7 +67,7 @@ struct NSObject_IMPL NSObjct_IVARS :isa
 > 3.类和指针绑定:initInstanceIsa
 ```
 
-###前两个方法的实现已探究，今天探究initInstanceIsa：
+### 前两个方法的实现已探究，今天探究initInstanceIsa：
 创建了一个[LGPerson alloc] 进入源码调试:
 * isa的初始化方法（initInstanceIsa）：
     ![-w990](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074291592421.jpg)
@@ -81,7 +81,7 @@ struct NSObject_IMPL NSObjct_IVARS :isa
 * 通过上图探究一下：ISA_BITFIELD
 ![-w635](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074293613765.jpg)
 
-#####解读ISA_BITFIELD所有元素：
+##### 解读ISA_BITFIELD所有元素：
 * nonpointer:表示是否对isa指针开启指针优化
 0:纯isa指针，1:不止是类对象地址,isa中包含了类信息、对象的引用计数等  
 
@@ -105,7 +105,7 @@ struct NSObject_IMPL NSObjct_IVARS :isa
 例如，如果对象的引用计数为10，那么extra_rc 为9。如果引用计数大于10,
 则需要使用到下面的has_sidetable_rc。 
 
-###初始化isa核心（objc_object::initIsa）
+### 初始化isa核心（objc_object::initIsa）
 ![-w1810](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074307600637.jpg)
 
 * newisa.bits赋值后打印内容：
