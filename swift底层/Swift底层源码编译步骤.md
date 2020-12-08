@@ -5,7 +5,7 @@
     [国内安装HomeBrew教程](https://www.jianshu.com/p/4cef9a8f1a78)
 * 预留60G空间（编译后灰常占用空间）
 
-* 􏰔􏰇􏰄􏰕􏰉􏰊􏰈􏰐􏰖􏰗􏰗Python2.X （使用HomeBrew安装最新即可）
+* Python2.X （使用HomeBrew安装最新即可）
 * Xcode 12.2
 * 安装cmake(推荐使用brew cask install安装)
     * 推荐使用“brew cask install homebrew/cask/cmake”安装
@@ -20,7 +20,7 @@
 mkdir swift-source
 cd swift-source
 ```
-###第一步􏰁􏰗􏰂􏰊 clone swift 源码
+###第一步 clone swift 源码
 ```
 git clone --branch swift-5.3.1-RELEASE https://github.com/apple/swift.git
 ```
