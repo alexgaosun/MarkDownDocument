@@ -7,6 +7,7 @@ sizeof(类)：打印的objc是对象指针的大小，固定8字节
 NSObject内存分配探究：
 
 ![NSObject内存分配探究](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/817C5AB7-1670-4BF8-B45E-7458FF9FEE50.png)
+
 总结：sizeof打印的是指针大小 8字节
 class_getInstanceSize：运行时NSObject占用大小 8字节
 malloc_size：系统分配给对象的大小  16字节。
