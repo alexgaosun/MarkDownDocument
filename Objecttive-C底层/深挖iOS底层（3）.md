@@ -5,6 +5,7 @@ sizeof(结构体)：结构体元素的类型的总和
 sizeof(类)：打印的objc是对象指针的大小，固定8字节
 * sizeof(),class_getInstanceSize，malloc_size区别
 NSObject内存分配探究：
+
 ![NSObject内存分配探究](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/817C5AB7-1670-4BF8-B45E-7458FF9FEE50.png)
 总结：sizeof打印的是指针大小 8字节
 class_getInstanceSize：运行时NSObject占用大小 8字节
