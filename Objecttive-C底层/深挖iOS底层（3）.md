@@ -26,39 +26,39 @@ x是（16进制显示结果），
 ```
 
 * LLDB调试-进制转换
-![-w612](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074232179113.jpg)
+![w612](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074232179113.jpg)
 
 ### 通过对象地址，探究对象的
-![-w794](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074238732931.jpg)
+![w794](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074238732931.jpg)
 NS都为指针类型，可通过当前指针存储的地址访问地址指向的内容。
 常量直接打印当前赋值，会出检索对应地址。
 
 ### 什么是对象
 * clang编译器
-![-w632](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074270917065.jpg)
+![w632](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074270917065.jpg)
 
 打开cpp文件，对比.m文件和cpp文件的对比
-![-w602](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074272235680.jpg)
+![w602](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074272235680.jpg)
 对象的本质实际就是结构体，如上图所示。
 * 底层编译对象类中第一个变量（isa指针）：
 struct NSObject_IMPL NSObjct_IVARS :isa
 * 对象属性在底层的创建：生成set和get方法
-  ![-w926](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074274028251.jpg)
+  ![w926](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074274028251.jpg)
 
 * 探究set方法中 **objc_setProperty**(在objc4源码中可查询实现)
-![-w1047](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074275311418.jpg)
+![w1047](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074275311418.jpg)
 
 * 深入reallySetProperty（创建新值，释放旧值）
-![-w1050](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074285489197.jpg)
+![w1050](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074285489197.jpg)
 总结：所有对象创建属性都会调用objc_setProperty,统一管理，（上下层分离，通过锁进行隔离），利用了适配器原则。
 
 ### 联合体位域
 * 字节：字节也叫Byte，1Byte=8bit(位)，1024Byte(字节)=1KB，1024KB=1MB，1024MB=1GB，1024GB=1TB。bit是描述电脑数据量的最小单位。
 * 结构体（struct）：中所有变量是共存关系，优点是可以共存。缺点是不管用不用都会分配结构体内元素内存。
 * 联合体（union）：各变量是互斥关系，缺点是不能共存，优点是精细灵活，也节省内存开销。如下图
-![-w435](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074286685122.jpg)
+![w435](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074286685122.jpg)
 这里利用左移运算符（<< ）来控制数值，这样就可采用1个字节控制4个不同变量。如图
-![-w991](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074287092650.jpg)
+![w991](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074287092650.jpg)
 
 * 通过底层2的总结探究到alloc核心方法calloc生成方法需要三步:
 ```
@@ -70,16 +70,16 @@ struct NSObject_IMPL NSObjct_IVARS :isa
 ### 前两个方法的实现已探究，今天探究initInstanceIsa：
 创建了一个[LGPerson alloc] 进入源码调试:
 * isa的初始化方法（initInstanceIsa）：
-    ![-w990](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074291592421.jpg)
+    ![w990](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074291592421.jpg)
 
 * 深入initIsa方法：
-![-w620](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074291920850.jpg)
+![w620](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074291920850.jpg)
 
 * 核心代码依然是isa_t,接下来就要深入isa_t类型，一探究竟。
-![-w968](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074292711916.jpg)
+![w968](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074292711916.jpg)
 
 * 通过上图探究一下：ISA_BITFIELD
-![-w635](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074293613765.jpg)
+![w635](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074293613765.jpg)
 
 ##### 解读ISA_BITFIELD所有元素：
 * nonpointer:表示是否对isa指针开启指针优化
@@ -106,41 +106,41 @@ struct NSObject_IMPL NSObjct_IVARS :isa
 则需要使用到下面的has_sidetable_rc。 
 
 ### 初始化isa核心（objc_object::initIsa）
-![-w1810](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074307600637.jpg)
+![w1810](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074307600637.jpg)
 
 * newisa.bits赋值后打印内容：
-  ![-w645](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074308436496.jpg)
+  ![w645](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074308436496.jpg)
 
 * 初始化后 magic 为何等于59？
 根据MAGIC_VALUE的默认值
 0x001d8000000000001
 通过计算器查看
-![-w633](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074309195127.jpg)
+![w633](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074309195127.jpg)
 从47位后得到：111011
-![-w536](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074310610795.jpg)
+![w536](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074310610795.jpg)
 十进制的59转化为机器码（二进制）即为11101
 
 ### 在objc_object::initIsa方法 探究shiftcls赋值演算：
-![-w1021](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074311397567.jpg)
+![w1021](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074311397567.jpg)
 
 * 通过objc_object::getIsa()探究isa
-![-w1031](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074312893285.jpg)
+![w1031](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074312893285.jpg)
 
 * 深入ISA()
-![-w642](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074313703487.jpg)
+![w642](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074313703487.jpg)
 
 * 通过objc_object::initIsa方法最后一步断点演算ISA()
-![-w1005](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074314238511.jpg)
+![w1005](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074314238511.jpg)
 
 ### 通过LLDB操作内存位移的演算来探究（shiftcls）isa的信息
-![-w758](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074315639691.jpg)
+![w758](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074315639691.jpg)
 
 * NSObjc类却是Class类型而不是isa_t类型原因：
-![-w946](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074318209004.jpg)
+![w946](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074318209004.jpg)
 通过getClass底层:object_getClass会调用objc_object::getIsa() 
-![-w701](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074320948787.jpg)
+![w701](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074320948787.jpg)
 ISA()方法进行了强转
-![-w416](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074321399184.jpg)
+![w416](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074321399184.jpg)
 
 
 
