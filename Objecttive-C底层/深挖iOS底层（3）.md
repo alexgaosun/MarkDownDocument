@@ -26,7 +26,6 @@ x/4gx中
 x是（16进制显示结果），
 4代表（连续打印4段）
 ```
-
 * LLDB调试-进制转换
 ![w612](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074232179113.jpg)
 
@@ -41,10 +40,12 @@ NS都为指针类型，可通过当前指针存储的地址访问地址指向的
 ![w632](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074270917065.jpg)
 
 打开cpp文件，对比.m文件和cpp文件的对比
-![w602](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074272235680.jpg)
+![w602](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074272235680.jpg)  
+
 对象的本质实际就是结构体，如上图所示。
 * 底层编译对象类中第一个变量（isa指针）：
-struct NSObject_IMPL NSObjct_IVARS :isa
+struct NSObject_IMPL NSObjct_IVARS :isa  
+
 * 对象属性在底层的创建：生成set和get方法
   ![w926](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074274028251.jpg)
 
@@ -129,10 +130,8 @@ struct NSObject_IMPL NSObjct_IVARS :isa
 * 通过objc_object::getIsa()探究isa
 ![w1031](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074312893285.jpg)  
 
-
 * 深入ISA()
 ![w642](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074313703487.jpg)  
-
 
 * 通过objc_object::initIsa方法最后一步断点演算ISA()
 ![w1005](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.002/2020/12/1208/16074314238511.jpg)
