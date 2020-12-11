@@ -54,17 +54,38 @@ git clone --branch swift-5.3.1-RELEASE https://github.com/apple/swift.git
 ![编写swift](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.0/2020/12/1208/205B355A-8D81-4EF5-80E4-AB9355A92402.png)
 
 ###最后说说我再编译过程中遇到的坑以及解决方案吧
-在编译过程中报了一堆error：
+* 在编译过程中报了一堆error：
 ![报错截图](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.001/2020/12/1208/5A313B0501C07AA1B573DB7681C72ACE.jpg)
 从网查了好多从一篇和swift无关的文章中找到了解决方案，大致意思
 就是和#include的检索顺序有关系。首先可以通过命令找到自己系统的#include的顺序
-而能找到math.h的第一个路径，则是<font color=#FF0000 >/usr/local/include/math.h</font>这个文件，这和预期是不一致的，预期要使用的math.h是其同目录的math.h。因此，我们可以对原来的cmath代码进行调整，将<math.h>改成"math.h"即可。
+而能找到math.h的第一个路径，则是/usr/local/include/math.h这个文件，这和预期是不一致的，预期要使用的math.h是其同目录的math.h。因此，我们可以对原来的cmath代码进行调整，将<math.h>改成"math.h"即可。
 具体步骤：
 
-修改“<font color=#FF0000 >/Library/Developer/CommandLineTools/usr/include/c++/v1/cmath</font>”中的#include <math.h>为#include "math.h"。
+修改“  /Library/Developer/CommandLineTools/usr/include/c++/v1/cmath  ”中的#include <math.h>为#include "math.h"。
 截图所示：
 ![](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.0/2020/12/1208/DD3E71CA3A9AB9A1A1D13E166368F729.jpg)
 用IDE打开：
 ![](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.0/2020/12/1208/48EDBD7749C6A8A5085B27E04981132B.jpg)
-    
 
+### 另一种解决方案
+该信息的报错应该是和`CommandLineTools`有关，那就直接删除
+1.在终端中执行以下代码:
+
+```
+sudo rm -rf /Library/Developer/CommandLineTools
+sudo xcode-select -s /Applications/Xcode.app
+```
+2.从新执行编译即可
+
+### 使用VSCode无法展示本地变量的问题
+![-w1173](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.004/2020/12/1211/16076749809125.jpg)
+1.将swift-source下编译好的build目录中对应路径bin文件全部拷贝
+![-w827](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.004/2020/12/1211/16076755128058.jpg)
+
+2.将swift源码中的文件lldb 赋值到 vscode下的lib文件 覆盖掉原来的liblldb.dylib，完成替换
+3.退出vscode，从新打开并debug，即可看到本地变量。
+
+我们看看效果：
+![-w845](https://cdn.jsdelivr.net/gh/alexgaosun/AGSCDN@1.004/2020/12/1211/16076759104194.jpg)
+
+这就是Swift源码完整的编译流程，有问题可以给我留言，探索过程是蛮有意思的。
